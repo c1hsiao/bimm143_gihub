@@ -1,0 +1,75 @@
+---
+title: "class06"
+author: "Chen"
+format: pdf
+editor: visual
+---
+
+
+
+PartA
+```{r}
+df<-data.frame(a=1:10, b=seq(200,400, length=10),c=11:20,d=NA)
+
+
+for (i in 1:ncol(df)){
+  df_colname<-colnames(df)
+  current_col<-df_colname[i]
+  df[[current_col]]<-(df[[current_col]]-min(df[[current_col]]))/(max(df[[current_col]])-min(df[[current_col]]))
+                                                                 }
+
+```
+
+
+Part B
+install.pacakges("bio3d")
+
+
+```{r}
+library(bio3d)
+FUN_proteinplot<-function(PDBID){
+  pdblist<-list()
+  for (i in 1:length(PDBID)){
+    ID<-PDBID[i]
+  s<-read.pdb(ID)
+  s.chainA <- trim.pdb(s, chain="A", elety="CA")
+  
+  s.b <- s.chainA$atom$b
+  plotb3(s.b, sse=s.chainA, typ="l", ylab="Bfactor")
+    l<-list(
+    PDBID   = PDBID,
+    chainA  = s.chainA,
+    bfactor = s.b
+  )
+    pdblist[[i]]<-l
+    
+  }
+  return(pdblist)
+}
+  
+
+  
+```
+
+
+
+Documentation:
+1. input: should be a vector, with PDBID
+2. function: for comparing Bfactor of protein in interest 
+3. output: a plot with Bfactor for Residue
+
+
+```{r}
+
+```
+
+lab06
+
+```{r}
+
+```
+
+
+
+
+

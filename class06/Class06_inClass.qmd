@@ -1,0 +1,258 @@
+---
+title: "Class06_inClass"
+author: "Chen"
+format: html
+editor: visual
+---
+
+## Background
+
+Functions are at the heart of using R. Everything we do involves calling and using functions.
+From data input, analysis to results output.
+
+
+All functions and R have at least three things:
+
+
+- A **name** the thing we use to call the function
+- One or more input **arguments** that are comma separated.
+- The **body**, line of code between curly brackets {} that does the work of the function.
+
+
+## A first function
+
+Let's write some silly wee function to add some numbers:
+```{r}
+FUN_add<-function(x){
+  x+1
+}
+```
+
+Let's try it out:
+
+```{r}
+y<-FUN_add(1)
+y
+```
+
+
+
+Will this work?
+
+```{r}
+FUN_add(c(100,200,300))
+```
+
+
+Modify to be more useful
+
+```{r}
+
+FUN_add_ver2<-function(x,y=1){
+  x+y
+}
+```
+
+
+```{r}
+FUN_add_ver2(100,10)
+```
+
+
+```{r}
+FUN_add_ver2(100)
+```
+
+>**N.B** Input argument can be default ie either **required** or **optional**. The later have a fall-back default that is specified in the function code with an equals sign.
+
+
+
+
+```{r}
+#| error: TRUE
+FUN_add_ver2(x=100, y=200, z=300)
+```
+
+
+## A second function
+
+All functions in R look like this
+
+```
+name <- function(arg){
+  body 
+  }
+```
+
+The `sample()` function in R...
+
+
+```{r}
+set.seed(123)
+sample(1:10, size=4)
+```
+
+
+>Q. Return 12 numbers picked randomly from the input 1:10
+
+```{r}
+#| error: TRUE
+set.seed(123)
+sample(1:10, size=12)
+```
+
+```{r}
+set.seed(123)
+sample(1:10, size=12,replace=TRUE)
+```
+
+
+> Q. Write the code to generate a random 12 nucleotide long DNA sequence
+
+```{r}
+set.seed(123)
+nuc<-c("A","T","C","G")
+seq<-sample(nuc, size=12,replace=TRUE)
+seq
+```
+
+```{r}
+clean_seq<-">"
+for (i in 1:length(seq)){
+  nuc_now<-seq[i]
+  clean_seq<-paste0(clean_seq,nuc_now)
+  
+}
+clean_seq
+```
+
+
+>Q. Wrtie a first version function called `generate_dna()` that generates a user specified length `n` random DNA sequence.
+
+```
+name <- function(arg){
+body
+}
+```
+
+>Q. Modify your function to return a FASTA-like sequence so rather than [1] "C" "C" "C"... we want CCC...
+
+
+
+```{r}
+FUN_generate_dna<-function(n=6){
+  set.seed(123)
+  nuc<-c("A","T","C","G")
+  seq<-sample(nuc, size=12,replace=TRUE)
+  neat_seq<-paste0(seq,collapse="")
+  return(neat_seq)
+}
+  
+```
+
+
+
+> Q. Give the user an option to return FASTA format output sequence or standard multi-elment vector format.
+
+
+
+```{r}
+FUN_generate_dna<-function(n=6,fasta=TRUE){
+  
+  set.seed(123)
+  nuc<-c("A","T","C","G")
+  seq<-sample(nuc, size=12,replace=TRUE)
+  if (fasta==TRUE){
+  FASTA_seq<-c(">",seq)
+  neat_seq<-paste0(FASTA_seq,collapse="")
+  return(neat_seq)}
+  else{
+  cat("Before seq")
+  return(seq)
+    
+    
+  }
+  }
+
+```
+
+input: n=size of the seq, fasta=TRUE as default
+```{r}
+FUN_generate_dna(12,fasta=FALSE)
+```
+
+
+>Q. Write a function called `generate_protein()` that generates a user specified length protein sequence in FASTA-like format?
+
+>Q. Use your new `generate_protein()` function to generate all sequences between length 6 and 12 amino-acids in length and check if any of these are unique in nature (ie found in the NR database at NCBI)?
+
+
+
+```{r}
+FUN_generate_protein<-function(n=6,fasta=TRUE){
+  aa <- c("A","R","N","D","C","E","Q","G","H","I","L","K","M","F","P","S","T","W","Y","V")
+  seq<-sample(aa, size=n,replace=TRUE)
+  if (fasta==TRUE){
+  neat_seq<-paste0(seq,collapse="")
+  return(neat_seq)}
+  else{
+  cat("Before seq")
+  return(seq)
+    
+    
+  }
+  }
+
+```
+
+
+
+BiocManager::install("rBLAST")
+```{r}
+random_num<-sample(6:12,10,replace=TRUE)
+for (i in 1:length(random_num)){
+  #cat(i)
+  serial<-random_num[i]
+  seq<-FUN_generate_protein(serial)
+  cat(">",i,"\n",seq,"\n",sep="")
+  
+}
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+```{r}
+FUN_generate_dna(12)
+```
+
+
+
+
+
+```{r}
+plot(1:10, col="blue")
+```
+
+
+You can `?function` in console.
+
+
+
+```{r}
+log(10, base=10)
+```
+
+
+
