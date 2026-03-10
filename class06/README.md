@@ -1,0 +1,1 @@
+class06 test
